@@ -122,13 +122,15 @@ def handle_not_s3():
 def handle_crc_ship_target():
     billing_provider = os.getenv('METRICS_UTILITY_BILLING_PROVIDER')
     red_hat_org_id = os.getenv('METRICS_UTILITY_RED_HAT_ORG_ID')
-
+    logger.debug(f"billing_provider: {billing_provider}")
     billing_provider_params = {'billing_provider': billing_provider}
     if billing_provider == 'aws':
         billing_account_id = os.getenv('METRICS_UTILITY_BILLING_ACCOUNT_ID')
+        logger.debug(f"billing_account_id: {billing_account_id}")
         if not billing_account_id:
             raise MissingRequiredEnvVar('METRICS_UTILITY_BILLING_ACCOUNT_ID, containing AWS 12 digit customer id needs to be provided.')
         billing_provider_params['billing_account_id'] = billing_account_id
+        logger.debug(f"billing_provider_params: {billing_provider_params}")
     else:
         raise MissingRequiredEnvVar('Uknown METRICS_UTILITY_BILLING_PROVIDER env var, supported values are [aws].')
 

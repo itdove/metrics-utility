@@ -31,6 +31,7 @@ class Collector(base.Collector):
 
         self.ship_target = ship_target
         self.billing_provider_params = billing_provider_params
+        logger.debug(f"self.billing_provider_params: {self.billing_provider_params}")
 
         super(Collector, self).__init__(collection_type=collection_type, collector_module=collector_module)
 
@@ -69,7 +70,10 @@ class Collector(base.Collector):
             # Extend the config collection to contain billing specific info:
             config_collection = self.collections['config']
             data = json.loads(config_collection.data)
+            logger.debug(f"data: f{data}")
             data['billing_provider_params'] = billing_provider_params
+            logger.debug(f"billing_provider_params in gather: {billing_provider_params}")
+            logger.debug(f"data: f{data}")
             config_collection._save_gathering(data)
             # End of extension
 

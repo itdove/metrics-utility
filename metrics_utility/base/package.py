@@ -238,6 +238,8 @@ class Package:
             logger.error("'config' collector data is missing, and is required to ship.")
             return False
         else:
+            data = self.collector.collections['config'].data
+            logger.debug(f"self.collector.collections['config']: {data}")
             self._collection_to_tar(tar, self.collector.collections['config'])
 
         return True

@@ -125,6 +125,7 @@ class Command(BaseCommand):
     def _handle_ship_target(self, ship_target):
         if ship_target == 'crc':
             handle_not_s3()
+            logger.debug(f'ship_target: {ship_target}')
             return handle_crc_ship_target()
         elif ship_target == 'directory':
             handle_not_crc()
