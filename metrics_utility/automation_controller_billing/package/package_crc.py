@@ -75,12 +75,15 @@ class PackageCRC(base.Package):
         # TODO: move to base
         if self.shipping_auth_mode() == self.SHIPPING_AUTH_SERVICE_ACCOUNT:
             sso_url = self.get_sso_url()
+            logger.debug(f"sso_url: {sso_url}")
             headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
             data = {'client_id': self._get_rh_user(), 'client_secret': self._get_rh_password(), 'grant_type': 'client_credentials'}
+            logger.debug(f"data: {data}")
 
             r = requests.post(sso_url, headers=headers, data=data, verify=self.CERT_PATH, timeout=(31, 31))
             access_token = json.loads(r.content)['access_token']
+            logger.debug(f"access_token: {access_token}")
 
             #################################
             ## Query crc with bearer token
@@ -90,6 +93,8 @@ class PackageCRC(base.Package):
             proxies = {}
             if self.get_proxy_url():
                 proxies = {'https': self.get_proxy_url()}
+
+            logger.debug(f"proxies: {proxies}")
 
             response = session.post(
                 url,
